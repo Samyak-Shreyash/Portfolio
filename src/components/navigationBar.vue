@@ -12,11 +12,13 @@
         :style="{ background: navBackground || '#555' }"
         ref="fig"
       >
-        <img
-          alt="logo"
-          :src="logoImg || require('@/assets/images/logo.png')"
-          width="40"
-        />
+        <router-link :to="navLinks[0].path">
+          <img
+            alt="logo"
+            :src="logoImg || require('@/assets/images/logo.png')"
+            width="40"
+          />
+        </router-link>
       </figure>
       <li
         :class="[themeClass, displayClass]"
