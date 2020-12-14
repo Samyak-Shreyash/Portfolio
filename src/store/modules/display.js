@@ -1,17 +1,12 @@
 const state = {
-  mobile: false,
   display: "desktop"
 };
 
 const getters = {
-  mobile: state => state.mobile,
   display: state => state.display
 };
 
 const actions = {
-  async getMobile({ commit }) {
-    commit("setMobile");
-  },
   async getDisplay({ commit }) {
     commit("setDisplay");
   },
@@ -24,10 +19,8 @@ const actions = {
 
 const mutations = {
   setDisplay: state => state.display,
-  setMobile: state => state.mobile,
   updateMobileState: (state, isMobile) => {
-    (state.mobile = isMobile),
-      (state.display = state.mobile ? "mobile" : "desktop");
+    state.display = isMobile ? "mobile" : "desktop";
     return state.display;
   }
 };

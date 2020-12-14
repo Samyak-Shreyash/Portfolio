@@ -1,28 +1,50 @@
 <template>
-
-
-<div>
-  <NavBar :nav-class="navigationClass()" :theme-logo="themeLogo()" :nav-Links="navLinks"/>
-</div>
-  <router-view />
+  <main>
+    <NavBar
+      :theme-class="getTheme()"
+      :display-class="getDisplay()"
+      :logo-img="logoImg()"
+      :theme-logo="themeLogo()"
+      :nav-Links="navLinks"
+      :nav-background="navBackground()"
+    />
+    <div :class="['pages', getTheme(), getDisplay()]">
+      <router-view :display-class="getDisplay()" :theme-class="getTheme()" />
+    </div>
+  </main>
 </template>
 <script>
 import NavBar from "@/components/navigationBar";
 import { mapGetters, mapActions } from "vuex";
-
+// import routes from "@/router";
 export default {
   name: "App",
   data: () => ({
     navLinks: [
       {
-        text: "Home",
+        text: "Intro",
         path: "/",
-        icon: "ion-ios-business"
+        icon: "ion-ios-person"
       },
       {
-        text: "About",
+        text: "Portfolio",
+        path: "/portfolio",
+        icon: "ion-ios-podium"
+      },
+      {
+        text: "Projects",
+        path: "/projects",
+        icon: "ion-ios-code-working"
+      },
+      {
+        text: "Blogs",
+        path: "/blogs",
+        icon: "ion-ios-paper"
+      },
+      {
+        text: "Contact",
         path: "/contact",
-        icon: "ion-ios-megaphone"
+        icon: "ion-ios-chatbubbles"
       }
     ]
   }),
@@ -30,16 +52,21 @@ export default {
     NavBar
   },
   methods: {
-    ...mapActions(["updateDarkMode","updateDisplay"]),
-    navigationClass() {
-      const navClass = this.getDisplay()+" "+this.theme;
-      console.log(navClass);
-      return (navClass|| 'nav');
+    ...mapActions(["updateDarkMode", "updateDisplay"]),
+    getTheme() {
+      return this.theme || "light";
     },
+    logoImg() {
+      return require("@/assets/images/logo.png");
+    },
+    navBackground() {
+      return this.theme == "dark" ? "#000" : "#fff";
+    },
+
     themeLogo() {
       return this.darkMode
-        ? require("@/assets/images/moon.png")
-        : require("@/assets/images/sun.png");
+        ? require("@/assets/images/sun.png")
+        : require("@/assets/images/moon.png");
     },
     getDisplay() {
       this.updateDisplay();
@@ -56,31 +83,22 @@ export default {
   }
 };
 </script>
-
 <style>
 @import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
-
+</style>
+<style lang="scss">
 body {
   margin: 0;
 }
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.pages {
+  &.dark {
+    background: rgba(58, 56, 56, 0.938);
+  }
+  &.desktop {
+    padding-top: 59px;
+  }
+  &.mobile {
+    padding-left: 60px;
   }
 }
 </style>
